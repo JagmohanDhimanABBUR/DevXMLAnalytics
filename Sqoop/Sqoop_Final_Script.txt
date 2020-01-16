@@ -1,0 +1,22 @@
+--------------------------------- Import Table: Configurators ---------------------------------
+
+sqoop import \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password NEelfl8hphPEt0ipn1LA \
+--table Configurators \
+--num-mappers 1 \
+--as-parquetfile \
+--target-dir /user/inankal3/sqoop_import/configurators
+
+--------------------------------- Import Table: Products ---------------------------------
+
+sqoop import \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password-file /user/inankal3/dev_directory/EmpowerQAPassword.file \
+--table products \
+--num-mappers 1 \
+--as-parquetfile \
+--target-dir /user/inankal3/sqoop_import/products
+

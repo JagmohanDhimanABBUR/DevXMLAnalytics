@@ -1,0 +1,9 @@
+----------- Configurator Table
+Error: Error while compiling statement: FAILED: ParseException line 1:149 cannot recognize input near ',' 'ViewID' 'figuratorStatusID' in column type (state=42000,code=40000)
+
+Error: Error while compiling statement: FAILED: ParseException line 1:149 cannot recognize input near ',' 'ViewID' 'INT' in column type (state=42000,code=40000)
+
+
+----------- ModelXML Table
+Error: Error while compiling statement: FAILED: ParseException line 8:30 cannot recognize input near ',' 'STRING' ')' in column type (state=42000,code=40000)
+0:

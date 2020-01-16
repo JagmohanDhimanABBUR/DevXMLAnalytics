@@ -1,0 +1,44 @@
+/user/hive/warehouse/epis_empower_ingestion.db/stg_us_configurators
+
+-------------------------------------- eval --------------------------------------
+sqoop eval \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password NEelfl8hphPEt0ipn1LA \
+--query "SELECT count(*) FROM [Configurators]"
+
+sqoop eval \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password-file /user/inankal3/dev_directory/EmpowerQAPassword.file \
+--query "SELECT count(*) FROM [products]"
+
+-------------------------------------- Import --------------------------------------
+sqoop import --connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" --username DWHAnalytics --password NEelfl8hphPEt0ipn1LA --query "SELECT TOP (10) [ConfiguratorID],[ProductID],[Name],[Business],[ViewID],[ConfiguratorStatusID],[LastUpdated] FROM [Configurator_Platform].[dbo].[Configurators] where \$CONDITIONS" --num-mappers 1 --hive-import --hive-overwrite --create-hive-table --hive-table STG_US_Configurators --target-dir /user/hive/warehouse/epis_empower_ingestion/stg_us_configurators
+
+
+hadoop fs -mkdir /user/inankal3/sqoop_import
+
+sqoop import \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password NEelfl8hphPEt0ipn1LA \
+--query "SELECT TOP (10) [ConfiguratorID],[ProductID],[Name],[Business],[ViewID],[ConfiguratorStatusID],[LastUpdated] FROM [Configurator_Platform].[dbo].[Configurators] where \$CONDITIONS" \
+--num-mappers 1 \
+--as-parquetfile \
+--target-dir /user/inankal3/sqoop_import/configurators
+
+
+
+------------------------------------- Successfully running Import  -------------------------------------
+sqoop import --connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" --username DWHAnalytics --password NEelfl8hphPEt0ipn1LA --query "SELECT TOP (10) [ConfiguratorID],[ProductID],[Name],[Business],[ViewID],[ConfiguratorStatusID],[LastUpdated] FROM [Configurator_Platform].[dbo].[Configurators] where \$CONDITIONS" --num-mappers 1 --hive-import --hive-table epis_empower_ingestion.STG_US_Configurators --target-dir sqoop/sqoop_import
+
+sqoop import \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password NEelfl8hphPEt0ipn1LA \
+--query "SELECT TOP (10) [ConfiguratorID],[ProductID],[Name],[Business],[ViewID],[ConfiguratorStatusID],[LastUpdated] FROM [Configurator_Platform].[dbo].[Configurators] where \$CONDITIONS" \
+--num-mappers 1 \
+--hive-import \
+--hive-table epis_empower_ingestion.test_STG_US_Configurators \
+--target-dir /user/inankal3/sqoop_import/configurators/stg
