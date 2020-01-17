@@ -20,3 +20,14 @@ sqoop import \
 --as-parquetfile \
 --target-dir /user/inankal3/sqoop_import/products
 
+--------------------------------- Import Table: ModelXML ---------------------------------
+
+sqoop import \
+--connect "jdbc:sqlserver://quotemgmtugqards.cxw6bmkarorn.us-east-1.rds.amazonaws.com:1433;database=Configurator_Platform" \
+--username DWHAnalytics \
+--password-file /user/inankal3/dev_directory/EmpowerQAPassword.file \
+--query "SELECT TOP (10) [ModelID],[ConfiguratorID],[XML],[Drawing],[UserID],[LastUpdated] FROM [Configurator_Platform].[dbo].[ModelXML] where \$CONDITIONS" \
+--num-mappers 4 \
+--split-by ConfiguratorID \
+--as-parquetfile \
+--target-dir /user/inankal3/sqoop_import/modelxml

@@ -68,18 +68,6 @@ PARTITIONED BY (ConfiguratorID STRING)
 STORED AS PARQUET;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ------------------------------------------------------------------------------------------------------------------------
 ----------------------------------- Successfully run -------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
@@ -89,14 +77,12 @@ CREATE EXTERNAL TABLE IF NOT EXISTS epis_empower_ingestion.test_STG_US_Configura
   ,Name STRING
   ,Business STRING
   ,ViewID INT
-  ,ConfiguratorStatusID INT);
+  ,ConfiguratorStatusID INT)
+STORED AS PARQUET
+LOCATION '/user/inankal3/sqoop_import/test_directory/configurators';
   
+DROP TABLE IF EXISTS epis_empower_ingestion.test_STG_US_Configurators;
   
-  
-------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------
-
 CREATE EXTERNAL TABLE IF NOT EXISTS epis_empower_ingestion.test_STG_US_ModelXML (
    ModelID STRING
   ,XML STRING
@@ -105,8 +91,30 @@ CREATE EXTERNAL TABLE IF NOT EXISTS epis_empower_ingestion.test_STG_US_ModelXML 
   ,LastUpdated TIMESTAMP)
 PARTITIONED BY (ConfiguratorID STRING)
 STORED AS PARQUET
-LOCATION "/user/inankal3/sqoop_import/test_STG_US_ModelXML";
+LOCATION '/user/inankal3/sqoop_import/test_directory';
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS epis_empower_ingestion.STG_US_Configurators;
+
+DROP TABLE IF EXISTS epis_empower_ingestion.STG_US_Products
+
+DROP TABLE IF EXISTS epis_empower_ingestion.STG_US_ModelXML
+
+DROP TABLE IF EXISTS epis_empower_ingestion.PostStaging_Configurators
+
+DROP TABLE IF EXISTS epis_empower_ingestion.PostStaging_Products
+
+DROP TABLE IF EXISTS epis_empower_ingestion.PostStaging_ModelXML
+
+
+
+
 
 DROP TABLE IF EXISTS epis_empower_ingestion.test_STG_US_ModelXML;
 
 LOAD DATA INPATH '/user/inankal3/sqoop_import/products/ec45dbb3-1f72-4b71-960e-1f3cbbeab824.parquet' OVERWRITE INTO TABLE epis_empower_ingestion.STG_US_Products;
+
+LOAD DATA INPATH '/user/inankal3/sqoop_import/products/' OVERWRITE INTO TABLE epis_empower_ingestion.STG_US_Products;
